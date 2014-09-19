@@ -2,7 +2,7 @@
 
 Del 12 al 14 de septiembre de 2014, se desarrolló el [#hack4good de Geeklist](https://geekli.st/hackathon/hack4good-06/), un hackathon global contra el cambio climático, que aquí [en Madrid lo organizamos](http://www.meetup.com/Hackathon-Lovers/events/201739262/) la gente de [Hackathon Lovers](http://hackathonlovers.com/) junto con la gente de [KUNlabori](http://www.kunlabori.es/), y cuyo patrocinador principal fue [CartoDB](http://cartodb.com/).
 
-A mi se me ocurrió hacer un mapa con la evolución de la contaminación del aire de Madrid. Y conseguí realizar un [mapa de la evolución del dióxido de Nitrógeno en Madrid](https://asanzdiego.cartodb.com/viz/d79daa7c-3c19-11e4-8081-0edbca4b5057/), que creo que ha quedado bastante chulo.
+A mi se me ocurrió hacer un mapa con la evolución de la contaminación del aire de Madrid, y conseguí realizar un [mapa de la evolución del dióxido de Nitrógeno en Madrid](https://asanzdiego.cartodb.com/viz/d79daa7c-3c19-11e4-8081-0edbca4b5057/), que creo que ha quedado bastante chulo:
 
 ![Mapa de la evolución del dióxido de Nitrógeno en Madrid](./img/cartodb-00-visualizacion.png)
 
@@ -18,15 +18,21 @@ Desde el último enlace descargué todos los datos que están en la [carpeta dat
 
 ## Descifrar datos
 
-Una vez descargados los datos, había que descifrar su contenido. Eso lo encontré en la [página web de medioambiente del municipio de Madrid](http://www.mambiente.munimadrid.es/), exactamente me descargué un [fichero llamado INTPHORA-DIA.pdf](http://www.mambiente.munimadrid.es/opencms/export/sites/default/calaire/Anexos/INTPHORA-DIA.pdf), que también lo tenéis en [datos/INTPHORA-DIA.pdf](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/raw/master/datos/INTPHORA-DIA.pdf).
+Una vez descargados los datos, había que descifrar su contenido.
+
+Eso lo encontré en la [página web de medioambiente del municipio de Madrid](http://www.mambiente.munimadrid.es/), exactamente me descargué un [fichero llamado INTPHORA-DIA.pdf](http://www.mambiente.munimadrid.es/opencms/export/sites/default/calaire/Anexos/INTPHORA-DIA.pdf), que también lo tenéis en [datos/INTPHORA-DIA.pdf](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/raw/master/datos/INTPHORA-DIA.pdf).
 
 ## Geo-Coordenadas de las estaciones
 
-En los datos del Ayuntamiento de Madrid están los códigos de las estaciones atmosféricas, pero no sus coordenadas. Gracias a Félix Pedrera ([@fpedrera](https://twitter.com/fpedrera)) encontré las Geo-Coordenadas de las estaciones atmosféricas en [AirBase - The European air quality database](http://www.eea.europa.eu/data-and-maps/data/airbase-the-european-air-quality-database-8), exactamente me descargué el fichero [estaciones/AirBase_v8_stations.csv](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/raw/master/estaciones/AirBase_v8_stations.csv).
+En los datos del Ayuntamiento de Madrid están los códigos de las estaciones atmosféricas, pero no sus geo-coordenadas.
+
+Gracias a Félix Pedrera ([@fpedrera](https://twitter.com/fpedrera)) encontré las Geo-Coordenadas de las estaciones atmosféricas en [AirBase - The European air quality database](http://www.eea.europa.eu/data-and-maps/data/airbase-the-european-air-quality-database-8), exactamente me descargué el fichero [estaciones/AirBase_v8_stations.csv](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/raw/master/estaciones/AirBase_v8_stations.csv).
 
 ## Filtrar y parsear estaciones
 
-Con los datos en bruto, tenía que filtrar y parsear los datos de las estaciones atmosféricas. Para ello cree el script [estaciones-madrid-toarray.sh](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/blob/master/estaciones-madrid-toarray.sh), en donde primero filtro las estaciones de madrid y luego parseo los datos para poder utilizarlos en otro script:
+Con los datos en bruto, tenía que filtrar y parsear los datos de las estaciones atmosféricas.
+
+Para ello cree el script [estaciones-madrid-toarray.sh](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/blob/master/estaciones-madrid-toarray.sh), en donde primero filtro las estaciones de madrid y luego parseo los datos para poder utilizarlos en otro script:
 
 ~~~Bash
 # filtro las estaciones de Madrid
@@ -35,3 +41,47 @@ cat estaciones/AirBase_v8_stations.csv | grep -i madrid > estaciones/AirBase_v8_
 # exporto las estaciones de Madrid a un array de Shell Script
 awk -F "\t" '{print "estaciones["$2"]=\"" $13 "_" $14 "\""}' estaciones/AirBase_v8_stations.madrid.csv > estaciones/estaciones-madrid-toarray.txt
 ~~~
+
+El resultado es este bonito [fichero con las geo-posiciones de las estaciones atmosféricas de Madrid](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/blob/master/estaciones/estaciones-madrid-toarray.txt)
+
+## Parsear datos
+
+Ahora toca parsear los datos que están en la [carpeta datos](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/tree/master/datos).
+
+Para ello cree el script [parsea.sh](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/blob/master/parsea.sh), en donde primero parseo los datos y luego remplazo los códigos de las estaciones atmosféricas de Madrid por sus geo-coordenadas:
+
+~~~Bash
+estaciones[28079001]="-3.691945;40.422501"
+# ...
+estaciones[28079022]="-3.715884;40.404648"
+
+function parsea() {
+
+    # ESTACION (8) PARAMETROS (2-2-2) AÑO (2) MES (2) DATOS...
+
+    echo $1
+    sed 's/V/;/g' datos/$1.txt | awk -F ";" '{print substr($1,1,8)";"substr($1,9,2)";20"substr($1,15,2)"-"substr($1,17,2)"-01;"$2}' >> datos/datos.csv
+
+    # longitud;latitud;parametro;anio-mes-dia;valor
+}
+
+echo "longitud;latitud;parametro;anio-mes-dia;valor" > datos/datos.csv
+
+parsea datos03
+# ...
+parsea datos14
+
+# cambio 'estacion' por 'longitud' y 'latitud'
+for index in ${!estaciones[*]}
+do
+    value=${estaciones[$index]}
+    echo $index"="$value
+    sed -i "s/$index/$value/g" datos/datos.csv
+done
+
+# quita la estación que hace de media de todas las estaciones y las estaciones sin geoposición
+echo "longitud;latitud;parametro;anio-mes-dia;valor" > datos-ok.csv
+awk  -F ";" '$1<0 {print $0}' datos/datos.csv >> datos-ok.csv
+~~~
+
+El resultado es este bonito [fichero con los datos de la calidad del aire de Madrid desde el 2013 al 2014](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/blob/master/datos-ok.csv)
