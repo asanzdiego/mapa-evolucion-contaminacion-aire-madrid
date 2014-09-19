@@ -1,3 +1,28 @@
+function parsea() {
+
+    # ESTACION (8) PARAMETROS (2-2-2) AÑO (2) MES (2) DATOS...
+
+    echo $1
+    sed 's/V/;/g' datos/$1.txt | awk -F ";" '{print substr($1,1,8)";"substr($1,9,2)";20"substr($1,15,2)"-"substr($1,17,2)"-01;"$2}' >> datos/datos.csv
+
+    # longitud;latitud;parametro;anio-mes-dia;valor
+}
+
+echo "longitud;latitud;parametro;anio-mes-dia;valor" > datos/datos.csv
+
+parsea datos03
+parsea datos04
+parsea datos05
+parsea datos06
+parsea datos07
+parsea datos08
+parsea datos09
+parsea datos10
+parsea datos11
+parsea datos12
+parsea datos13
+parsea datos14
+
 estaciones[28079001]="-3.691945;40.422501"
 estaciones[28079002]="-3.691945;40.409725"
 estaciones[28079004]="-3.712222;40.424167"
@@ -51,31 +76,6 @@ estaciones[28079061]="-3.695000;40.402500"
 estaciones[28079019]="-3.741834;40.406567"
 estaciones[28079021]="-3.717420;40.439359"
 estaciones[28079022]="-3.715884;40.404648"
-
-function parsea() {
-
-    # ESTACION (8) PARAMETROS (2-2-2) AÑO (2) MES (2) DATOS...
-
-    echo $1
-    sed 's/V/;/g' datos/$1.txt | awk -F ";" '{print substr($1,1,8)";"substr($1,9,2)";20"substr($1,15,2)"-"substr($1,17,2)"-01;"$2}' >> datos/datos.csv
-
-    # longitud;latitud;parametro;anio-mes-dia;valor
-}
-
-echo "longitud;latitud;parametro;anio-mes-dia;valor" > datos/datos.csv
-
-parsea datos03
-parsea datos04
-parsea datos05
-parsea datos06
-parsea datos07
-parsea datos08
-parsea datos09
-parsea datos10
-parsea datos11
-parsea datos12
-parsea datos13
-parsea datos14
 
 # cambio 'estacion' por 'longitud' y 'latitud'
 for index in ${!estaciones[*]}
