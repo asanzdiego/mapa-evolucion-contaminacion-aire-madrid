@@ -84,7 +84,7 @@ echo "longitud;latitud;parametro;anio-mes-dia;valor" > datos-ok.csv
 awk  -F ";" '$1<0 {print $0}' datos/datos.csv >> datos-ok.csv
 ~~~
 
-El resultado es este bonito [fichero con los datos de la calidad del aire de Madrid desde el 2013 al 2014](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/raw/master/datos-ok.csv)
+El resultado es este bonito [fichero con los datos de la calidad del aire de Madrid desde el 2013 al 2014](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/raw/master/datos-ok.csv).
 
 ## Filtrado de datos
 
@@ -145,7 +145,7 @@ function categoriza() {
 categoriza
 ~~~
 
-El resultado es este bonito [fichero con los datos del Dióxido de Nitrógeno de Madrid desde el 2013 al 2014](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/blob/master/NO2-Nitrogen-Dioxide-Madrid-Evolution.csv)
+El resultado es este bonito [fichero con los datos del Dióxido de Nitrógeno de Madrid desde el 2013 al 2014](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/blob/master/NO2-Nitrogen-Dioxide-Madrid-Evolution.csv).
 
 ## Crear tabla en CartoDB
 
