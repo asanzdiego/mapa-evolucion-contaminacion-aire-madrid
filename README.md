@@ -146,3 +146,37 @@ categoriza
 ~~~
 
 El resultado es este bonito [fichero con los datos del Dióxido de Nitrógeno de Madrid desde el 2013 al 2014](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/blob/master/NO2-Nitrogen-Dioxide-Madrid-Evolution.csv)
+
+# Crear tabla en CartoDB
+
+Con los datos del Dióxido de Nitrógeno ya filtrados y parseados, lo que hice fue darme de alta en [CartoDB](http://cartodb.com/) crearme una tabla a partir de dicho fichero:
+
+![Crear una tabla en CartoDB](./img/cartodb-01-crear-tabla-bis.png)
+
+# Cambiar a tipo 'date' en CartoDB
+
+Todos los datos se importaron bien, excepto el campo 'anio-mes-dia' que tuve que cambiarlo a tipo 'date' de forma manual:
+
+![Cambiar a tipo 'date' en CartoDB](./img/cartodb-02-cambiar-tipo-bis.png)
+
+# Parámetros en el 'Torque Cat' de CartoDB
+
+Luego, para realizar la presentación, seleccioné uno de los wizars, en este caso '**Torque Cat**', que nos permite ver la evolución de dato categorizados, a lo largo del tiempo.
+
+Tuve que cambiar la columna 'Time Column' y poner 'anio-mes-dia'; y también tuve que cambiar la columna 'Category Column' y poner 'categoria':
+
+![Cambiar 'Time Column' y 'Category Column' en el 'Torque Cat' de CartoDB](./img/cartodb-04-map-view-torque-cat-1-bis.png)
+
+Para que se visualizara bien con mis datos, cambié los 'Steps' a '128'', el 'Blend Mode' a 'multiply' y el 'Trails' a '5':
+
+![Cambiar otros parámetros en el 'Torque Cat' de CartoDB](./img/cartodb-05-map-view-torque-cat-2-bis.png)
+
+Para 'ver' la contaminación, puse colores a las categorías de menos a más contaminación: azul, verde, amarillo, naranja, rojo y marrón:
+
+![Cambiar los colores de las categorías en el 'Torque Cat' de CartoDB](./img/cartodb-06-map-view-torque-cat-3-bis.png)
+
+# Vista mapa en CartoDB
+
+Y poco más, ya tenemos nuestro precioso [mapa de la evolución del Dióxido de Nitrógeno en Madrid](https://asanzdiego.cartodb.com/viz/d79daa7c-3c19-11e4-8081-0edbca4b5057/):
+
+![Vista Mapa en CartoDB](./img/cartodb-00-visualizacion.png)
