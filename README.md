@@ -179,4 +179,4 @@ Para 'ver' la contaminación, puse **colores a las categorías** de menos a más
 
 Y poco más, ya tenemos nuestro precioso [mapa de la evolución del Dióxido de Nitrógeno en Madrid](https://asanzdiego.cartodb.com/viz/d79daa7c-3c19-11e4-8081-0edbca4b5057/):
 
-![Vista Mapa en CartoDB](./img/cartodb-00-visualizacion.png)
+![Vista Mapa en CartoDB](./img/cartodb-03-map-view.png)
