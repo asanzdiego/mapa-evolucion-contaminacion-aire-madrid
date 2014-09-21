@@ -86,7 +86,7 @@ awk  -F ";" '$1<0 {print $0}' datos/datos.csv >> datos-ok.csv
 
 El resultado es este bonito [fichero con los datos de la calidad del aire de Madrid desde el 2013 al 2014](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/raw/master/datos-ok.csv)
 
-# Filtrado de datos
+## Filtrado de datos
 
 Una vez aquí, lo que tenemos que hacer es **filtrar los datos**, pues hay medidas de distintos contaminantes, cada uno con unas medidas distintas.
 
@@ -119,7 +119,7 @@ filtra 92 LLA   LLUVIA_ACIDA
 
 El resultado esta en la [carpeta filtrados](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/tree/master/filtrados).
 
-# Categorizar valores
+## Categorizar valores
 
 Ahora el problema es que los datos son numéricos, y yo quiero tener **categorías para poder poner un color a cada una de las categorías**.
 
@@ -147,19 +147,19 @@ categoriza
 
 El resultado es este bonito [fichero con los datos del Dióxido de Nitrógeno de Madrid desde el 2013 al 2014](https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid/blob/master/NO2-Nitrogen-Dioxide-Madrid-Evolution.csv)
 
-# Crear tabla en CartoDB
+## Crear tabla en CartoDB
 
 Con los datos del Dióxido de Nitrógeno ya filtrados y parseados, lo que hice fue darme de alta en [CartoDB](http://cartodb.com/) y **crearme una tabla a partir de dicho fichero**:
 
 ![Crear una tabla en CartoDB](./img/cartodb-01-crear-tabla-bis.png)
 
-# Cambiar a tipo 'date' en CartoDB
+## Cambiar a tipo 'date' en CartoDB
 
 Todos los datos se importaron bien, excepto **el campo 'anio-mes-dia' que tuve que cambiarlo a tipo 'date'** de forma manual:
 
 ![Cambiar a tipo 'date' en CartoDB](./img/cartodb-02-cambiar-tipo-bis.png)
 
-# Parámetros en el 'Torque Cat' de CartoDB
+## Parámetros en el 'Torque Cat' de CartoDB
 
 Luego, para realizar la presentación, seleccioné uno de los wizards, en este caso '**Torque Cat**', que nos permite ver la **evolución de datos categorizados a lo largo del tiempo**.
 
@@ -175,7 +175,7 @@ Para 'ver' la contaminación, puse **colores a las categorías** de menos a más
 
 ![Cambiar los colores de las categorías en el 'Torque Cat' de CartoDB](./img/cartodb-06-map-view-torque-cat-3-bis.png)
 
-# Vista mapa en CartoDB
+## Vista mapa en CartoDB
 
 Y poco más, ya tenemos nuestro precioso [mapa de la evolución del Dióxido de Nitrógeno en Madrid](https://asanzdiego.cartodb.com/viz/d79daa7c-3c19-11e4-8081-0edbca4b5057/):
 
