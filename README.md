@@ -1,3 +1,6 @@
+ACTUALIZACIÓN -> <https://github.com/asanzdiego/mapa-evolucion-contaminacion-aire-madrid-2024/>
+
+
 # Mapa de la evolución de la contaminación del aire de Madrid
 
 Del 12 al 14 de septiembre de 2014, se desarrolló el [#hack4good de Geeklist](https://geekli.st/hackathon/hack4good-06/), un **hackathon global contra el cambio climático**, que aquí [en Madrid lo organizamos](http://www.meetup.com/Hackathon-Lovers/events/201739262/) la gente de [Hackathon Lovers](http://hackathonlovers.com/) junto con la gente de [KUNlabori](http://www.kunlabori.es/), y cuyo patrocinador principal fue [CartoDB](http://cartodb.com/).
